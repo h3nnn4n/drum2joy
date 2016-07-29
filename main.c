@@ -42,19 +42,19 @@ int main(void) {
             switch ( inpacket[1] ) {
                 case 38: // Snare
                     printf("Snare\n");
-                    keycode = XKeysymToKeycode(display, XK_M);
+                    keycode = XKeysymToKeycode(display, XK_Z);
                     break;
                 case 43: // Floor tom
                     printf("Floor tom\n");
-                    keycode = XKeysymToKeycode(display, XK_Z);
+                    keycode = XKeysymToKeycode(display, XK_Right);
                     break;
                 case 36: // Kick drum
                     printf("Kick drum\n");
-                    keycode = XKeysymToKeycode(display, XK_C);
+                    keycode = XKeysymToKeycode(display, XK_Left);
                     break;
                 case 49: // Crash
                     printf("Crash\n");
-                    keycode = XKeysymToKeycode(display, XK_S);
+                    keycode = XKeysymToKeycode(display, XK_Up);
                     break;
                 default:
                     keycode = 0;
@@ -63,9 +63,8 @@ int main(void) {
             if ( keycode ) {
                 XTestGrabControl(display, True);
                 XTestFakeKeyEvent(display, keycode, True,  0);
-                nanosleep((const struct timespec[]){{0, 20000000L}}, NULL); // Sleeps for 0.02 seconds
-                XTestFakeKeyEvent(display, keycode, False, 0);
-                XSync(display, False);
+                XTestFakeKeyEvent(display, keycode, False, 20);
+                XFlush(display);
                 XTestGrabControl(display, False);
             }
         }
